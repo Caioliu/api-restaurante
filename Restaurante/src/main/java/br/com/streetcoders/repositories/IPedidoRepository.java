@@ -8,5 +8,5 @@ import br.com.streetcoders.models.Pedido;
 
 @Repository
 public interface IPedidoRepository extends JpaRepository<Pedido, Long>, JpaSpecificationExecutor<Pedido> {
-
+	
 }
