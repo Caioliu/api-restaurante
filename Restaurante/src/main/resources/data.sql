@@ -1,17 +1,24 @@
--- Inserir produtos tipo BEBIDA
+WITH novos_produtos(nome, preco, produto_tipo) AS (
+  VALUES
+    ('Refrigerante de Cola',            5.99, 'BEBIDA'),
+    ('Suco de Laranja Natural',         4.50, 'BEBIDA'),
+    ('Água Mineral sem Gás',            6.75, 'BEBIDA'),
+    ('Chá Gelado de Pêssego',           7.25, 'BEBIDA'),
+    ('Cerveja Artesanal IPA',           8.50, 'BEBIDA'),
+    ('Filé Mignon ao Molho Madeira',   29.90, 'PRATO'),
+    ('Risoto de Funghi Porcini',       25.50, 'PRATO'),
+    ('Lasanha à Bolonhesa',            22.75, 'PRATO'),
+    ('Feijoada Completa',              18.99, 'PRATO'),
+    ('Salmão Grelhado com Risoto de Limão Siciliano', 26.50, 'PRATO')
+)
 INSERT INTO produto (id, preco, nome, produto_tipo)
-VALUES
-    (nextval('sq_produto'), 5.99, 'Refrigerante de Cola', 'BEBIDA'),
-    (nextval('sq_produto'), 4.50, 'Suco de Laranja Natural', 'BEBIDA'),
-    (nextval('sq_produto'), 6.75, 'Água Mineral sem Gás', 'BEBIDA'),
-    (nextval('sq_produto'), 7.25, 'Chá Gelado de Pêssego', 'BEBIDA'),
-    (nextval('sq_produto'), 8.50, 'Cerveja Artesanal IPA', 'BEBIDA');
-
--- Inserir produtos tipo PRATO
-INSERT INTO produto (id, preco, nome, produto_tipo)
-VALUES
-    (nextval('sq_produto'), 29.90, 'Filé Mignon ao Molho Madeira', 'PRATO'),
-    (nextval('sq_produto'), 25.50, 'Risoto de Funghi Porcini', 'PRATO'),
-    (nextval('sq_produto'), 22.75, 'Lasanha à Bolonhesa', 'PRATO'),
-    (nextval('sq_produto'), 18.99, 'Feijoada Completa', 'PRATO'),
-    (nextval('sq_produto'), 26.50, 'Salmão Grelhado com Risoto de Limão Siciliano', 'PRATO');
+SELECT nextval('sq_produto'),
+       np.preco,
+       np.nome,
+       np.produto_tipo
+FROM novos_produtos np
+WHERE NOT EXISTS (
+  SELECT 1
+  FROM produto p
+  WHERE p.nome = np.nome
+);

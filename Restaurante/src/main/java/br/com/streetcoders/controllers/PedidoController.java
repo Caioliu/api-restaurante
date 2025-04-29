@@ -1,7 +1,8 @@
 package br.com.streetcoders.controllers;
 
+
 import br.com.streetcoders.dtos.*;
-import br.com.streetcoders.models.Pedido.PedidoStatus;
+
 import br.com.streetcoders.services.PedidoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -9,7 +10,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -36,7 +36,7 @@ public class PedidoController {
         return ResponseEntity.ok(pedido);
     }
 
-    @PostMapping("/{pedidoId}/produtos")
+    @PostMapping("/{id}/produto")
     @Operation(
         summary = "Adicionar produto ao pedido",
         responses = {
@@ -46,31 +46,14 @@ public class PedidoController {
         }
     )
     public ResponseEntity<Void> adicionarProduto(
-        @PathVariable Long pedidoId,
+        @PathVariable Long id,
         @RequestBody ItemPedidoRequest request
     ) {
-        pedidoService.adicionarProdutoAoPedido(pedidoId, request.getProdutoId(), request.getQuantidade());
+        pedidoService.adicionarProdutoAoPedido(id, request.getProdutoId(), request.getQuantidade());
         return ResponseEntity.ok().build();
     }
 
-    @PatchMapping("/{pedidoId}/status")
-    @Operation(
-        summary = "Atualizar status do pedido",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Status atualizado com sucesso"),
-            @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
-        }
-    )
-    
-    public ResponseEntity<Void> atualizarStatus(
-        @PathVariable Long pedidoId,
-        @RequestParam PedidoStatus status
-    ) {
-        pedidoService.atualizarStatusPedido(pedidoId, status);
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/{pedidoId}/produtos/{produtoId}")
+    @DeleteMapping("/{id}/produto")
     @Operation(
         summary = "Remover produto do pedido",
         responses = {
@@ -79,15 +62,14 @@ public class PedidoController {
         }
     )
     public ResponseEntity<Void> removerProduto(
-        @PathVariable Long pedidoId,
-        @PathVariable Long produtoId,
-        @RequestParam int quantidade
+        @PathVariable Long id,
+        @RequestBody ItemPedidoRequest request
     ) {
-        pedidoService.removerProdutoDoPedido(pedidoId, produtoId, quantidade);
+        pedidoService.removerProdutoDoPedido(id, request.getProdutoId(), request.getQuantidade());
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/{pedidoId}/produtos")
+    @DeleteMapping("/{id}/produtos")
     @Operation(
         summary = "Remover todos os produtos do pedido",
         responses = {
@@ -95,23 +77,23 @@ public class PedidoController {
             @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
         }
     )
-    public ResponseEntity<Void> removerTodosProdutos(@PathVariable Long pedidoId) {
-        pedidoService.removerTodosProdutosDoPedido(pedidoId);
+    public ResponseEntity<Void> removerTodosProdutos(@PathVariable Long id) {
+        pedidoService.removerTodosProdutosDoPedido(id);
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/{pedidoId}/total")
-    @Operation(
-        summary = "Calcular valor total do pedido",
-        responses = {
-            @ApiResponse(responseCode = "200", description = "Valor total calculado"),
-            @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
-        }
-    )
-    public ResponseEntity<PedidoValorTotalDto> calcularTotal(@PathVariable Long pedidoId) {
-        BigDecimal result = pedidoService.calcularValorTotalPedido(pedidoId);
-        return ResponseEntity.ok(new PedidoValorTotalDto(result));
-    }
+//    @GetMapping("/{id}/total")
+//    @Operation(
+//        summary = "Calcular valor total do pedido",
+//        responses = {
+//            @ApiResponse(responseCode = "200", description = "Valor total calculado"),
+//            @ApiResponse(responseCode = "404", description = "Pedido não encontrado")
+//        }
+//    )
+//    public ResponseEntity<PedidoValorTotalDto> calcularTotal(@PathVariable Long id) {
+//        BigDecimal result = pedidoService.calcularValorTotalPedido(id);
+//        return ResponseEntity.ok(new PedidoValorTotalDto(result));
+//    }
 
     @GetMapping("/{id}")
     @Operation(

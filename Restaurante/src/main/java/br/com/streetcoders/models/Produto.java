@@ -2,6 +2,7 @@ package br.com.streetcoders.models;
 
 import java.math.BigDecimal;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -26,19 +27,19 @@ import lombok.Setter;
 @Builder
 public class Produto {
     
-    public enum ProdutoTipo {
-        PRATO, BEBIDA;
+	public enum ProdutoTipo {
+	    PRATO, BEBIDA;
 
-        public static ProdutoTipo getByName(String value) {
-            for (ProdutoTipo produto : ProdutoTipo.values()) {
-                if (produto.name().equals(value)) {
-                    return produto;
-                }
-            }
-            return null;
-        }
-    }
-    
+	    public static ProdutoTipo getByName(String value) {
+	        for (ProdutoTipo produto : ProdutoTipo.values()) {
+	            if (produto.name().equals(value)) {
+	                return produto;
+	            }
+	        }
+	        return null;
+	    }
+	}
+	
     @Id
     @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="produto_seq")
     @SequenceGenerator(name="produto_seq", sequenceName="sq_produto", initialValue = 1, allocationSize = 1)

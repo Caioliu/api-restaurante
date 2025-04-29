@@ -1,6 +1,7 @@
 package br.com.streetcoders.models;
 
 import java.math.BigDecimal;
+
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +17,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 
@@ -33,7 +36,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Pedido {
-	
+
 	public enum PedidoStatus {
 		ABERTO, EMPREPARO, PRONTO, ENTREGUE;
 
@@ -109,6 +112,7 @@ public class Pedido {
     public BigDecimal calcularValorTotalPedido() {
         return itens.stream()
                 .map(ItemPedido::getValorItens)
+                .filter(valor -> valor != null)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 

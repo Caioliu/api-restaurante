@@ -12,6 +12,9 @@ public interface IPedidoMapper {
 	PedidoDto toDto(Pedido pedido);
 	Pedido toEntity(PedidoDto dto);
 	
+	List<PedidoDto> toDetailedListDto(List<Pedido> pedidos);
+	List<Pedido> toDetailedListEntity(List<PedidoDto> dtos);
+	
 	List<ListPedidoDto> toListDto(List<Pedido> pedidos);
 	List<Pedido> toListEntity(List<ListPedidoDto> dtos);
 }

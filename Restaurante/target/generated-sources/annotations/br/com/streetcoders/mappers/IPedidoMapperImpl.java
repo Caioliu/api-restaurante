@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 
 @Generated(
     value = "org.mapstruct.ap.MappingProcessor",
-    date = "2025-04-26T11:50:40-0300",
-    comments = "version: 1.5.5.Final, compiler: Eclipse JDT (IDE) 3.41.0.v20250213-1140, environment: Java 21.0.6 (Eclipse Adoptium)"
+    date = "2025-04-28T22:36:42-0300",
+    comments = "version: 1.5.5.Final, compiler: javac, environment: Java 21.0.6 (Eclipse Adoptium)"
 )
 @Component
 public class IPedidoMapperImpl implements IPedidoMapper {
@@ -30,11 +30,11 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         PedidoDto pedidoDto = new PedidoDto();
 
-        pedidoDto.setClienteNome( pedido.getClienteNome() );
-        pedidoDto.setDataHora( pedido.getDataHora() );
         pedidoDto.setId( pedido.getId() );
         pedidoDto.setItens( itemPedidoSetToItemPedidoDtoList( pedido.getItens() ) );
         pedidoDto.setMesa( pedido.getMesa() );
+        pedidoDto.setClienteNome( pedido.getClienteNome() );
+        pedidoDto.setDataHora( pedido.getDataHora() );
         pedidoDto.setStatus( pedido.getStatus() );
 
         return pedidoDto;
@@ -48,14 +48,42 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         Pedido.PedidoBuilder pedido = Pedido.builder();
 
-        pedido.clienteNome( dto.getClienteNome() );
-        pedido.dataHora( dto.getDataHora() );
         pedido.id( dto.getId() );
         pedido.itens( itemPedidoDtoListToItemPedidoSet( dto.getItens() ) );
         pedido.mesa( dto.getMesa() );
+        pedido.clienteNome( dto.getClienteNome() );
+        pedido.dataHora( dto.getDataHora() );
         pedido.status( dto.getStatus() );
 
         return pedido.build();
+    }
+
+    @Override
+    public List<PedidoDto> toDetailedListDto(List<Pedido> pedidos) {
+        if ( pedidos == null ) {
+            return null;
+        }
+
+        List<PedidoDto> list = new ArrayList<PedidoDto>( pedidos.size() );
+        for ( Pedido pedido : pedidos ) {
+            list.add( toDto( pedido ) );
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Pedido> toDetailedListEntity(List<PedidoDto> dtos) {
+        if ( dtos == null ) {
+            return null;
+        }
+
+        List<Pedido> list = new ArrayList<Pedido>( dtos.size() );
+        for ( PedidoDto pedidoDto : dtos ) {
+            list.add( toEntity( pedidoDto ) );
+        }
+
+        return list;
     }
 
     @Override
@@ -95,8 +123,8 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         produtoDto.setId( produto.getId() );
         produtoDto.setNome( produto.getNome() );
-        produtoDto.setPreco( produto.getPreco() );
         produtoDto.setTipo( produto.getTipo() );
+        produtoDto.setPreco( produto.getPreco() );
 
         return produtoDto;
     }
@@ -137,8 +165,8 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         produto.id( produtoDto.getId() );
         produto.nome( produtoDto.getNome() );
-        produto.preco( produtoDto.getPreco() );
         produto.tipo( produtoDto.getTipo() );
+        produto.preco( produtoDto.getPreco() );
 
         return produto.build();
     }
@@ -177,10 +205,10 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         ListPedidoDto listPedidoDto = new ListPedidoDto();
 
-        listPedidoDto.setClienteNome( pedido.getClienteNome() );
-        listPedidoDto.setDataHora( pedido.getDataHora() );
         listPedidoDto.setId( pedido.getId() );
         listPedidoDto.setMesa( pedido.getMesa() );
+        listPedidoDto.setClienteNome( pedido.getClienteNome() );
+        listPedidoDto.setDataHora( pedido.getDataHora() );
         listPedidoDto.setStatus( pedido.getStatus() );
 
         return listPedidoDto;
@@ -193,10 +221,10 @@ public class IPedidoMapperImpl implements IPedidoMapper {
 
         Pedido.PedidoBuilder pedido = Pedido.builder();
 
-        pedido.clienteNome( listPedidoDto.getClienteNome() );
-        pedido.dataHora( listPedidoDto.getDataHora() );
         pedido.id( listPedidoDto.getId() );
         pedido.mesa( listPedidoDto.getMesa() );
+        pedido.clienteNome( listPedidoDto.getClienteNome() );
+        pedido.dataHora( listPedidoDto.getDataHora() );
         pedido.status( listPedidoDto.getStatus() );
 
         return pedido.build();
