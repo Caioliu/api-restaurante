@@ -38,8 +38,7 @@ Este projeto tem como objetivo fornecer uma API RESTful robusta para operações
 
 A API conta com documentação interativa via Swagger, permitindo a visualização e teste dos endpoints diretamente pelo navegador. Após rodar a aplicação, acesse: 
 
-http://localhost:8080/swagger-ui.html
-
+http://localhost:8080/swagger-ui/index.html#/
 
 ## 🗃️ Banco de Dados
 
